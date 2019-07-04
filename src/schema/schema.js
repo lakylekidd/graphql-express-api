@@ -2,6 +2,10 @@
 const graphql = require('graphql');
 const _ = require('lodash');
 
+// Import models
+const Book = require('./../models/book');
+const Author = require('./../models/author');
+
 // Start by describing the object types
 // we want in our schema, the relationships
 // and how to call them
@@ -38,7 +42,7 @@ const BookType = new GraphQLObjectType({
             type: AuthorType,
             resolve(parent, args) {
                 // Associate the author
-                return _.find(authors, { id: parent.authorId })
+                return Author.findByPk(parent.authorId)
             }
         }
     })
@@ -55,7 +59,12 @@ const AuthorType = new GraphQLObjectType({
             type: new GraphQLList(BookType),
             resolve(parent, args) {
                 // Associate the books
-                return _.filter(books, { authorId: parent.id })
+                return Book.findAll({
+                    where: { authorId: parent.id }
+                })
+                    .then(books => {
+                        return books;
+                    });
             }
         }
     })
@@ -69,6 +78,16 @@ const GenreType = new GraphQLObjectType({
         books: {
             type: new GraphQLList(BookType),
             resolve(parent, args) {
+                return Book.findAll({
+                    where: { authorId: parent.id }
+                })
+                    .then(books => {
+                        return _.uniqBy(books, 'genre').map(x => {
+                            return {
+                                name: x.genre
+                            }
+                        });
+                    });
                 return _.filter(books, { genre: parent.name })
             }
         }
@@ -87,8 +106,13 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve(parent, args) {
                 // Code to get data from DB / other source
-                // For now return from dummy data
-                return _.find(books, { id: args.id });
+                return Book.findByPk(args.id)
+                    .then(result => {
+                        return result;
+                    })
+                    .catch(e => null);
+                // // For now return from dummy data
+                // return _.find(books, { id: args.id });
             }
         },
         author: {
@@ -98,30 +122,36 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve(parent, args) {
                 // Code to get data from DB / other source
-                // For now return from dummy data
-                return _.find(authors, { id: args.id });
+                return Author.findByPk(args.id)
+                    .then(result => {
+                        return result;
+                    })
+                    .catch(e => null);
             }
         },
         books: {
             type: new GraphQLList(BookType),
             resolve(parent, args) {
-                return books;
+                return Book.findAll()
             }
         },
         authors: {
             type: new GraphQLList(AuthorType),
             resolve(parent, args) {
-                return authors;
+                return Author.findAll()
             }
         },
         genres: {
             type: new GraphQLList(GenreType),
             resolve(parent, args) {
-                return _.uniqBy(books, 'genre').map(x => {
-                    return {
-                        name: x.genre
-                    }
-                });
+                return Book.findAll()
+                    .then(books => {
+                        return _.uniqBy(books, 'genre').map(x => {
+                            return {
+                                name: x.genre
+                            }
+                        });
+                    });
             }
         }
     }
