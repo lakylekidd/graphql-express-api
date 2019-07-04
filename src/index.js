@@ -1,6 +1,7 @@
 // Import required modules
 const koa = require('koa');
 import koaRouter from 'koa-router';
+import cors from 'koa-cors';
 import koaBody from 'koa-bodyparser';
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 import schema from './schema/schema';
@@ -29,6 +30,9 @@ router.get('/graphiql', graphiqlKoa({
     endpointURL: '/graphql',
     // passHeader: `'Authorization': 'Bearer <test token>'`,
 }));
+
+// Use Cors
+app.use(cors());
 
 // Use the routes specified
 app.use(router.routes());
