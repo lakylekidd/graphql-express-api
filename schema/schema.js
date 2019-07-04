@@ -61,6 +61,20 @@ const AuthorType = new GraphQLObjectType({
     })
 });
 
+// Define a Genre type
+const GenreType = new GraphQLObjectType({
+    name: 'Genre',
+    fields: () => ({
+        name: { type: GraphQLString },
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args) {
+                return _.filter(books, { genre: parent.name })
+            }
+        }
+    })
+})
+
 // Define Root Queries
 // This defines how the user grapb data
 const RootQuery = new GraphQLObjectType({
@@ -98,6 +112,16 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(AuthorType),
             resolve(parent, args) {
                 return authors;
+            }
+        },
+        genres: {
+            type: new GraphQLList(GenreType),
+            resolve(parent, args) {
+                return _.uniqBy(books, 'genre').map(x => {
+                    return {
+                        name: x.genre
+                    }
+                });
             }
         }
     }
