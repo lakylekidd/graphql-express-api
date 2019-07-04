@@ -1,5 +1,6 @@
 // Require graph QL for the schema
 const graphql = require('graphql');
+const _ = require('lodash');
 
 // Start by describing the object types
 // we want in our schema, the relationships
@@ -7,6 +8,13 @@ const graphql = require('graphql');
 
 // Define object types
 const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql;
+
+// Dummy Data
+const books = [
+    { name: 'Name of the Wind', genre: 'Fantasy', id: '1' },
+    { name: 'The Final Empire', genre: 'Fantasy', id: '2' },
+    { name: 'The Long Earth', genre: 'Sci-Fi', id: '3' },
+];
 
 // Define the book type
 const BookType = GraphQLObjectType({
@@ -31,6 +39,8 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args) {
                 // Code to get data from DB / other source
 
+                // For now return from dummy data
+                return _.find(books, { id: args.id });
             }
         }
     }
