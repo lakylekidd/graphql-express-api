@@ -1,3 +1,6 @@
+# GraphQL Express API
+This is an example of a functioning GraphQL API that can be found deployed on heroku [here](https://graphql-sample-api.herokuapp.com/).
 
-
-1. Install graphql and express-graphql `npm i graphql express-graphql`
+## Technologies used
+* ExpressJS
+* PostgreSQL

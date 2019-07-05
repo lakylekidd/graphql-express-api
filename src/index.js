@@ -1,5 +1,5 @@
 // Import required modules
-const koa = require('koa');
+import koa from 'koa';
 import koaRouter from 'koa-router';
 import cors from 'koa-cors';
 import koaBody from 'koa-bodyparser';
@@ -9,7 +9,8 @@ import schema from './schema/schema';
 // Initialize koa server and router and set port
 const app = new koa();
 const router = new koaRouter();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
+const host = process.env.HOST || 'http://localhost';
 
 // Display welcome message
 console.clear();
@@ -40,7 +41,7 @@ app.use(router.allowedMethods());
 
 // Start listening to port
 app.listen(PORT, () => {
-    const url = `http://localhost:${PORT}`;
+    const url = `${host}:${PORT}`;
     console.log(`   GraphQL server started on:\n   ${url}\n\n`,
         `➜ Open ${url}/graphiql to\n   start querying your API.\n\n`,
         `➜ Point your GraphQL client apps to\n   ${url}/graphql\n`,
