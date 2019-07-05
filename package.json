@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "dev": "nodemon --inspect ."
+    "start": "nodemon --inspect ."
   },
   "keywords": [],
   "author": "",
