@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 const databaseUrl = process.env.DATABASE_URL | 'postgres://postgres:secret@localhost:5432/postgres';
 const sequelize = new Sequelize(databaseUrl);
 
-// Configure Sequelize
+// Configure Sequelize without sync
 sequelize
     .sync()
     .then(() => console.log('Database schema updated'))
