@@ -2,7 +2,6 @@
 This is an example of a functioning GraphQL API that can be found deployed on heroku [here](https://graphql-sample-api.herokuapp.com/).
 
 ## Technologies used
-* ExpressJS
 * PostgreSQL
 * Koa
 * Apollo Server
@@ -19,4 +18,4 @@ In order to use this repo you need to run a postgres image locally by running `d
 4. Use [GraphQL commands](https://graphql.org/learn/queries/) to view books and authors. For Reference click on the Docs link on the upper right corner of your browser.
 
 ## GraphQL Client
-In order to query the data with a client, visit [this repo](https://github.com/lakylekidd/graphql-react-client) and follow the instructions to run it locally.
+In order to query the data with a client, you can check [this React Client](https://github.com/lakylekidd/graphql-react-client) and follow the instructions to run it locally.
